@@ -20,7 +20,7 @@ class SearchComponent : RComponent<RProps, SearchComponent.State>() {
         val newValue = state.searchText
         launch {
             val response = get("/api/search/usages?q=$newValue")
-            println(response)
+            kotlin.js.console.log(response)
         }
     }
 

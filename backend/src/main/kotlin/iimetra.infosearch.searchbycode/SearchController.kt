@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/search")
-class SearchController(val searchService: SearchService) {
+class SearchController(val searchService: SearchService, val sparkService: SparkService) {
 
     @GetMapping("/usages")
-    fun findUsages(@RequestParam("q", required = false) testString: String): String {
-        val result = searchService.search(testString)
-        return "$testString heh"
+    fun findUsages(@RequestParam("q", required = false) testString: String): SmartResult {
+        val allMatches = searchService.search(testString)
+        return SmartResult(sparkService.getGrouped(allMatches))
     }
 }

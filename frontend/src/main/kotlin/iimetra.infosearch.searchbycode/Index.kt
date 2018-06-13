@@ -7,6 +7,6 @@ import kotlin.browser.document
 fun main(args: Array<String>) {
     kotlinext.js.require.invoke("styles/common.scss")
     render(document.getElementById("root")) {
-        +"Hello, world"
+        child(HomeComponent::class) {}
     }
 }

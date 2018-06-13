@@ -32,6 +32,8 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging'
 
     compile group: 'ch.qos.logback', name: 'logback-classic'
+    //Apache Spark
+    compile group: 'org.apache.spark', name: 'spark-core_2.11', version: '2.3.1'
 
     expectedBy project(":common")
 }

@@ -28,5 +28,5 @@ data class LabelInfo(val label: Label, val lines: List<FragmentInfo>)
 data class FragmentInfo(val url: String, var location: String, val filename: String, val lines: List<String>)
 
 enum class Label {
-    CLASS, OTHER
+    CLASS, OTHER, METHOD, VARIABLE, METHOD_CALL, DOCS
 }

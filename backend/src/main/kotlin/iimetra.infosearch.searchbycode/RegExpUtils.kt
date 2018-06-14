@@ -10,9 +10,13 @@ fun regExpTest(testString: String, pattern: String): Boolean {
 
 fun classPattern(className: String) = "\\s*(public\\s+|private\\s+)?\\s*(static\\s+)?class\\s+" + className + "\\s+((implements|extends)\\s+\\S+\\s*)*"
 fun typePattern(variableName: String) =
-    "\\s*(int(\\[\\])*|boolean(\\[\\])*|String(\\[\\])*|long(\\[\\])*|double(\\[\\])*|char(\\[\\])*|List<.+>|ArrayList<.+>)\\s+(.+,s*)*\\s*$variableName(\\s*.*\\s*)*"
+    "(\\s*\\S+\\s+(.+,s*)*\\s*" + variableName + "(\\s*.*\\s*)*|.*\"" + variableName + "\")"
 
 fun methodPattern(methodName: String) =
-    "\\s*(public\\s+|private\\s+)?\\s*(static\\s+)?\\s*(int(\\[\\])*|boolean(\\[\\])*|String(\\[\\])*|long(\\[\\])*|double(\\[\\])*|char(\\[\\])*|List<.+>|ArrayList<.+>|void)\\s+$methodName\\s*\\(.*\\)"
+    "\\s*(public\\s+|private\\s+)?\\s*(static\\s+)?\\s*\\S+\\s+" + methodName + "\\s*\\(.*\\)?"
+
+fun callNamePattern(callName: String) = "\\s*(\\S+\\.|(\\S\\..*\\.)+)" + callName + "\\(.*\\)?"
+
+fun docsPattern(commentName: String) = "\\s*(//|/\\*|\\*)" + "(.*\\s+)*\\s*" + commentName + "(\\s+.*)*"
 
 

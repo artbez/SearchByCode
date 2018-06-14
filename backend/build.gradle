@@ -34,6 +34,8 @@ dependencies {
     compile group: 'ch.qos.logback', name: 'logback-classic'
     //Apache Spark
     compile group: 'org.apache.spark', name: 'spark-core_2.11', version: '2.3.1'
+// https://mvnrepository.com/artifact/org.glassfish.jersey.inject/jersey-hk2
+    compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.26-b04'
 
     expectedBy project(":common")
 }

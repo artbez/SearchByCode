@@ -14,7 +14,7 @@ class SearchController(val searchService: SearchService, val sparkService: Spark
     @GetMapping("/usages")
     fun findUsages(@RequestParam("q", required = false) testString: String): SmartResult {
         val res = runBlocking {
-            (0..49).map {
+            (0..1).map {
                 async {
                     searchService.search(testString, it)
                 }

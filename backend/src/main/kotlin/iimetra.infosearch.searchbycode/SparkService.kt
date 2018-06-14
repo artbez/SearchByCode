@@ -13,6 +13,10 @@ class SparkService {
 
     private val sc = JavaSparkContext(conf)
 
+//    init {
+//        sc.setCheckpointDir("checkpoints/")
+//    }
+
     fun getGrouped(items: List<MatchResult>): List<RepoInfo> {
 
         val sparkItems =
@@ -32,7 +36,8 @@ class SparkService {
                 }
             }.toList()
 
-        val input = sc.parallelize(sparkItems)
+        val input = sc.parallelize(sparkItems)//.repartition(4)
+        // input.checkpoint()
         val sparkResult = input
             .flatMap { it.iterator() }
             .map { it + getLabel(it[6], it[5]) }
@@ -57,7 +62,11 @@ class SparkService {
 fun getLabel(query: String, line: String): String {
     val corLine = line.substring(line.indexOf(":") + 1)
     return when {
+        regExpTest(corLine, docsPattern(query)) -> Label.DOCS.name
         regExpTest(corLine, classPattern(query)) -> Label.CLASS.name
+        regExpTest(corLine, methodPattern(query)) -> Label.METHOD.name
+        regExpTest(corLine, typePattern(query)) -> Label.VARIABLE.name
+        regExpTest(corLine, callNamePattern(query)) -> Label.METHOD_CALL.name
         else -> Label.OTHER.name
     }
 }

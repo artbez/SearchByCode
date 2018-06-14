@@ -1,5 +1,7 @@
 package iimetra.infosearch.searchbycode
 
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -11,7 +13,13 @@ class SearchController(val searchService: SearchService, val sparkService: Spark
 
     @GetMapping("/usages")
     fun findUsages(@RequestParam("q", required = false) testString: String): SmartResult {
-        val allMatches = searchService.search(testString)
-        return SmartResult(sparkService.getGrouped(allMatches))
+        val res = runBlocking {
+            (0..49).map {
+                async {
+                    searchService.search(testString, it)
+                }
+            }.map { it.await() }
+        }
+        return SmartResult(sparkService.getGrouped(res))
     }
 }

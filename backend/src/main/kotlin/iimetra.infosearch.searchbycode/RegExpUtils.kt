@@ -8,7 +8,7 @@ fun regExpTest(testString: String, pattern: String): Boolean {
     return m.matches();
 }
 
-fun classPattern(className: String) = "\\s*(public\\s+|private\\s+)?\\s*(static\\s+)?class\\s+$className\\s*\\{(\\s*.*\\s*)*\\}"
+fun classPattern(className: String) = "\\s*(public\\s+|private\\s+)?\\s*(static\\s+)?class\\s+" + className + "\\s+((implements|extends)\\s+\\S+\\s*)*"
 fun typePattern(variableName: String) =
     "\\s*(int(\\[\\])*|boolean(\\[\\])*|String(\\[\\])*|long(\\[\\])*|double(\\[\\])*|char(\\[\\])*|List<.+>|ArrayList<.+>)\\s+(.+,s*)*\\s*$variableName(\\s*.*\\s*)*"
 

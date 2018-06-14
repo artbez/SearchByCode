@@ -1,7 +1,5 @@
-package iimetra.infosearch.searchbycode
+package iimetra.infosearch.searchbycode.search
 
-import iimetra.infosearch.searchbycode.utils.get
-import kotlinx.coroutines.experimental.launch
 import kotlinx.html.ButtonType
 import kotlinx.html.InputType
 import kotlinx.html.id
@@ -12,19 +10,18 @@ import org.w3c.dom.events.Event
 import react.*
 import react.dom.*
 
-class SearchComponent : RComponent<RProps, SearchComponent.State>() {
+class SearchComponent : RComponent<SearchComponent.Props, SearchComponent.State>() {
 
     private fun sendSearchRequest(event: Event) {
         event.preventDefault()
         event.stopPropagation()
         val newValue = state.searchText
-        launch {
-            val response = get("/api/search/usages?q=$newValue")
-            kotlin.js.console.log(response)
+        newValue?.let {
+            props.updateSearchData(newValue)
         }
     }
 
-    override fun SearchComponent.State.init() {
+    override fun State.init() {
         searchText = null
     }
 
@@ -61,6 +58,12 @@ class SearchComponent : RComponent<RProps, SearchComponent.State>() {
     interface State : RState {
         var searchText: String?
     }
+
+    interface Props : RProps {
+        var updateSearchData: (String) -> Unit
+    }
 }
 
-fun RBuilder.searchComponent() = child(SearchComponent::class) { }
+fun RBuilder.searchComponent(updateSearchData: (String) -> Unit) = child(SearchComponent::class) {
+    attrs.updateSearchData = updateSearchData
+}
